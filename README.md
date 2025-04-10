@@ -47,10 +47,13 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ## Authentication
 
-The application uses a simple authentication system with hardcoded credentials:
+The application uses a simple authentication system with credentials stored in environment variables:
 
-- User ID: 1234567890
-- Password: 1234567890
+```bash
+# In your .env.local file
+AUTH_USER_ID=your_user_id
+AUTH_PASSWORD=your_password
+```
 
 **Note**: This is a simple authentication implementation intended for basic protection. For production applications, consider using a more secure authentication method.
 
