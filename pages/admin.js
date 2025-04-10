@@ -1,7 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Admin = () => {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Check authentication on component mount
+  useEffect(() => {
+    const checkAuth = () => {
+      const auth = localStorage.getItem('utm_auth');
+      if (auth !== 'true') {
+        router.push('/');
+      } else {
+        setIsAuthenticated(true);
+      }
+      setIsLoading(false);
+    };
+    
+    checkAuth();
+  }, [router]);
+
   const [utmParameters, setUtmParameters] = useState({
     sources: ['Google', 'Facebook', 'Twitter', 'LinkedIn', 'Instagram', 'Email', 'Direct', 'Newsletter'],
     mediums: ['CPC', 'Email', 'Social', 'Organic', 'Referral', 'Display', 'Banner', 'PPC'],
@@ -40,6 +60,27 @@ const Admin = () => {
       [type]: prev[type].filter((_, i) => i !== index)
     }));
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+        gap: '20px'
+      }}>
+        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
+      </div>
+    );
+  }
+
+  // Show content only if authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: 'var(--gray-100)', minHeight: '100vh' }}>
