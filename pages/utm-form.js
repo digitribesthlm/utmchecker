@@ -118,8 +118,14 @@ const UTMForm = () => {
     
     // Try to send to webhook with error handling
     try {
-      // Define the webhook URL
-      const baseWebhookUrl = 'https://n8n.digitribe.se/webhook/ff6779da-0dab-48cf-8cf0-a7db48c52a47';
+      // Define the webhook URL - get from environment variable
+      const baseWebhookUrl = process.env.NEXT_PUBLIC_UTM_WEBHOOK || '';
+      
+      // Only proceed if webhook URL is available
+      if (!baseWebhookUrl) {
+        console.warn('UTM webhook URL not defined in environment variables');
+        return;
+      }
       
       // Prepare query parameters
       const params = new URLSearchParams({
