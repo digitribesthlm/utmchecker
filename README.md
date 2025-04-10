@@ -1,12 +1,10 @@
-# Private Application
+# Application
 
-## Getting Started
+## Setup
 
-### Environment Setup
+1. Create a `.env.local` file.
 
-1. Create a `.env.local` file with the required environment variables.
-
-### Running the Development Server
+## Development
 
 ```bash
 npm run dev
