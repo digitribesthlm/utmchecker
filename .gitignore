@@ -37,9 +37,7 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .evn.local
-
-# But allow example env file
-!.env.example
+.env.example
 
 # vercel
 .vercel
