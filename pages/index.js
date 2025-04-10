@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import UTMForm from './utm-form';
-import Link from 'next/link';
 
 export default function Home() {
+  const router = useRouter();
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  
+
   // Check if user is already authenticated
   useEffect(() => {
     const auth = localStorage.getItem('utm_auth');
@@ -23,7 +21,7 @@ export default function Home() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    
+
     try {
       // Call our API endpoint
       const response = await fetch('/api/auth', {
@@ -33,9 +31,9 @@ export default function Home() {
         },
         body: JSON.stringify({ userId, password }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok && data.success) {
         // Set authentication in localStorage
         localStorage.setItem('utm_auth', 'true');
@@ -57,11 +55,11 @@ export default function Home() {
         <title>UTM Link Builder - Login</title>
         <meta name="description" content="Login to access the UTM link builder" />
       </Head>
-      
+
       <div style={{
-        display: 'flex',
+        display: 'flex', 
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'center', 
         justifyContent: 'center',
         minHeight: '100vh',
         padding: '20px'
@@ -77,7 +75,7 @@ export default function Home() {
           <h1 style={{ 
             textAlign: 'center', 
             marginBottom: '30px',
-            color: '#0052cc'
+            color: 'var(--primary)'
           }}>
             UTM Link Builder
           </h1>
@@ -85,7 +83,7 @@ export default function Home() {
           <form onSubmit={handleLogin}>
             {error && (
               <p style={{ 
-                color: '#e53935', 
+                color: 'var(--secondary-dark)', 
                 backgroundColor: '#ffebee',
                 padding: '10px',
                 borderRadius: '4px',
@@ -101,7 +99,8 @@ export default function Home() {
                 style={{ 
                   display: 'block', 
                   marginBottom: '5px',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  color: 'var(--gray-700)'
                 }}
               >
                 User ID
@@ -115,7 +114,7 @@ export default function Home() {
                   width: '100%',
                   padding: '10px',
                   borderRadius: '4px',
-                  border: '1px solid #ccc'
+                  border: '1px solid var(--gray-300)'
                 }}
                 required
               />
@@ -127,7 +126,8 @@ export default function Home() {
                 style={{ 
                   display: 'block', 
                   marginBottom: '5px',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  color: 'var(--gray-700)'
                 }}
               >
                 Password
@@ -141,19 +141,19 @@ export default function Home() {
                   width: '100%',
                   padding: '10px',
                   borderRadius: '4px',
-                  border: '1px solid #ccc'
+                  border: '1px solid var(--gray-300)'
                 }}
                 required
               />
             </div>
-            
-            <button
-              type="submit"
+
+            <button 
+              type="submit" 
               disabled={isLoading}
               style={{
                 width: '100%',
                 padding: '12px',
-                backgroundColor: isLoading ? '#cccccc' : '#0052cc',
+                backgroundColor: isLoading ? 'var(--gray-400)' : 'var(--primary)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '4px',

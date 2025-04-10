@@ -247,13 +247,13 @@ const UTMForm = () => {
   }
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f6f8', minHeight: '100vh' }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: 'var(--gray-100)', minHeight: '100vh' }}>
       <Head>
         <title>UTM Link Builder</title>
         <meta name="description" content="Create and manage UTM tracking links" />
       </Head>
-      
-      <header style={{ backgroundColor: '#0052cc', color: '#fff', padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+      <header style={{ backgroundColor: 'var(--primary)', color: '#fff', padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ margin: 0 }}>UTM Builder</h1>
         <nav style={{ display: 'flex', alignItems: 'center' }}>
           <Link href="/utm-form" style={{ color: '#fff', marginRight: '15px', textDecoration: 'none', fontWeight: 'bold' }}>
@@ -266,7 +266,7 @@ const UTMForm = () => {
             onClick={handleLogout}
             style={{ 
               padding: '8px 16px',
-              backgroundColor: '#f44336',
+              backgroundColor: 'var(--secondary)',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
@@ -279,108 +279,108 @@ const UTMForm = () => {
         </nav>
       </header>
       
-      <main style={{ maxWidth: '800px', margin: '40px auto', backgroundColor: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-        <h2 style={{ textAlign: 'center' }}>Create UTM Link</h2>
-        <p style={{ textAlign: 'center', color: '#666' }}>Build trackable links for your marketing campaigns with standardized UTM parameters.</p>
+      <main style={{ maxWidth: '800px', margin: '40px auto', backgroundColor: '#fff', padding: '20px', borderRadius: '8px', boxShadow: 'var(--shadow-md)' }}>
+        <h2 style={{ textAlign: 'center', color: 'var(--primary)' }}>Create UTM Link</h2>
+        <p style={{ textAlign: 'center', color: 'var(--gray-600)' }}>Build trackable links for your marketing campaigns with standardized UTM parameters.</p>
         
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'var(--gray-700)' }}>
               Website URL *
             </label>
-            <input 
+            <input
               type="text" 
               placeholder="https://example.com/landing-page" 
               value={baseUrl}
               onChange={handleBaseUrlChange}
-              style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }} 
+              style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--gray-300)', width: '100%' }} 
               required
             />
-            <small style={{ color: '#666', display: 'block', marginTop: '3px' }}>The full website URL (e.g. https://www.example.com)</small>
+            <small style={{ color: 'var(--gray-600)', display: 'block', marginTop: '3px' }}>The full website URL (e.g. https://www.example.com)</small>
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'var(--gray-700)' }}>
               Campaign Source *
             </label>
-            <select 
-              name="source" 
-              value={formData.source} 
-              onChange={handleChange} 
-              required 
-              style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }}
+            <select
+              name="source"
+              value={formData.source}
+              onChange={handleChange}
+              required
+              style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--gray-300)', width: '100%' }}
             >
               <option value="">Select source</option>
               {sources.map((source) => (
                 <option key={source} value={source.toLowerCase()}>{source}</option>
               ))}
             </select>
-            <small style={{ color: '#666', display: 'block', marginTop: '3px' }}>The referrer (e.g. google, newsletter)</small>
+            <small style={{ color: 'var(--gray-600)', display: 'block', marginTop: '3px' }}>The referrer (e.g. google, newsletter)</small>
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'var(--gray-700)' }}>
               Campaign Medium *
             </label>
-            <select 
-              name="medium" 
-              value={formData.medium} 
-              onChange={handleChange} 
-              required 
-              style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }}
+            <select
+              name="medium"
+              value={formData.medium}
+              onChange={handleChange}
+              required
+              style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--gray-300)', width: '100%' }}
             >
               <option value="">Select medium</option>
               {mediums.map((medium) => (
                 <option key={medium} value={medium.toLowerCase()}>{medium}</option>
               ))}
             </select>
-            <small style={{ color: '#666', display: 'block', marginTop: '3px' }}>Marketing medium (e.g. cpc, banner, email)</small>
+            <small style={{ color: 'var(--gray-600)', display: 'block', marginTop: '3px' }}>Marketing medium (e.g. cpc, banner, email)</small>
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'var(--gray-700)' }}>
               Campaign Name *
             </label>
-            <input 
-              type="text" 
-              name="campaign" 
+            <input
+              type="text"
+              name="campaign"
               placeholder="summer-sale" 
-              value={formData.campaign} 
-              onChange={handleChange} 
-              required 
-              style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }} 
+              value={formData.campaign}
+              onChange={handleChange}
+              required
+              style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--gray-300)', width: '100%' }} 
             />
-            <small style={{ color: '#666', display: 'block', marginTop: '3px' }}>Product, promo code, or slogan (e.g. spring_sale). One of campaign name or campaign id are required.</small>
+            <small style={{ color: 'var(--gray-600)', display: 'block', marginTop: '3px' }}>Product, promo code, or slogan (e.g. spring_sale). One of campaign name or campaign id are required.</small>
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'var(--gray-700)' }}>
               Campaign Term (Optional)
             </label>
-            <input 
-              type="text" 
-              name="term" 
+            <input
+              type="text"
+              name="term"
               placeholder="running+shoes" 
-              value={formData.term} 
-              onChange={handleChange} 
-              style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }} 
+              value={formData.term}
+              onChange={handleChange}
+              style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--gray-300)', width: '100%' }} 
             />
-            <small style={{ color: '#666', display: 'block', marginTop: '3px' }}>Identify the paid keywords</small>
+            <small style={{ color: 'var(--gray-600)', display: 'block', marginTop: '3px' }}>Identify the paid keywords</small>
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', color: 'var(--gray-700)' }}>
               Campaign Content (Optional)
             </label>
-            <input 
-              type="text" 
-              name="content" 
+            <input
+              type="text"
+              name="content"
               placeholder="logolink" 
-              value={formData.content} 
-              onChange={handleChange} 
-              style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }} 
+              value={formData.content}
+              onChange={handleChange}
+              style={{ padding: '10px', borderRadius: '4px', border: '1px solid var(--gray-300)', width: '100%' }} 
             />
-            <small style={{ color: '#666', display: 'block', marginTop: '3px' }}>Use to differentiate ads</small>
+            <small style={{ color: 'var(--gray-600)', display: 'block', marginTop: '3px' }}>Use to differentiate ads</small>
           </div>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
@@ -389,7 +389,7 @@ const UTMForm = () => {
               style={{ 
                 padding: '10px 20px', 
                 borderRadius: '4px', 
-                backgroundColor: '#0052cc', 
+                backgroundColor: 'var(--primary)', 
                 color: '#fff', 
                 border: 'none', 
                 cursor: 'pointer',
@@ -406,8 +406,8 @@ const UTMForm = () => {
                 padding: '10px 20px', 
                 borderRadius: '4px', 
                 backgroundColor: '#fff', 
-                color: '#333', 
-                border: '1px solid #ccc', 
+                color: 'var(--gray-700)', 
+                border: '1px solid var(--gray-300)', 
                 cursor: 'pointer'
               }}
             >
@@ -420,17 +420,17 @@ const UTMForm = () => {
           <div style={{ 
             marginTop: '30px', 
             padding: '20px', 
-            backgroundColor: '#e8f5ff', 
+            backgroundColor: 'var(--primary-light)', 
             borderRadius: '4px', 
-            border: '1px solid #0052cc',
+            border: '1px solid var(--primary)',
             position: 'relative'
           }}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#0052cc' }}>Generated UTM URL</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: 'var(--primary)' }}>Generated UTM URL</h3>
             <div style={{ 
               backgroundColor: '#fff', 
               padding: '15px', 
               borderRadius: '4px', 
-              border: '1px solid #ddd',
+              border: '1px solid var(--gray-300)',
               wordBreak: 'break-all',
               fontFamily: 'monospace',
               fontSize: '14px',
@@ -444,7 +444,7 @@ const UTMForm = () => {
                 style={{ 
                   padding: '8px 15px', 
                   borderRadius: '4px', 
-                  backgroundColor: copySuccess ? '#4caf50' : '#0052cc', 
+                  backgroundColor: copySuccess ? 'var(--primary-dark)' : 'var(--secondary)', 
                   color: '#fff', 
                   border: 'none', 
                   cursor: 'pointer',
@@ -457,7 +457,7 @@ const UTMForm = () => {
               {copySuccess && (
                 <span style={{ 
                   marginLeft: '10px', 
-                  color: '#4caf50', 
+                  color: 'var(--primary-dark)', 
                   fontWeight: 'bold',
                   display: 'inline-flex',
                   alignItems: 'center'
@@ -482,8 +482,8 @@ const UTMForm = () => {
         )}
         
         <div style={{ marginTop: '30px' }}>
-          <h3>Recent Links</h3>
-          <div style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
+          <h3 style={{ color: 'var(--primary)' }}>Recent Links</h3>
+          <div style={{ padding: '20px', backgroundColor: 'var(--gray-100)', borderRadius: '4px' }}>
             {recentLinks.length > 0 ? (
               <div>
                 {recentLinks.map((link, index) => (
@@ -494,68 +494,68 @@ const UTMForm = () => {
                       padding: '10px', 
                       backgroundColor: '#fff', 
                       borderRadius: '4px',
-                      border: '1px solid #eee'
+                      border: '1px solid var(--gray-200)'
                     }}
                   >
                     <div style={{ fontSize: '14px', wordBreak: 'break-all', fontFamily: 'monospace', marginBottom: '5px' }}>
                       {link.url}
                     </div>
-                    <div style={{ fontSize: '12px', color: '#666' }}>
-                      <span style={{ color: '#0052cc', fontWeight: 'bold' }}>{link.parameters.source}</span> | {link.parameters.medium} | {link.parameters.campaign}
+                    <div style={{ fontSize: '12px', color: 'var(--gray-600)' }}>
+                      <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{link.parameters.source}</span> | {link.parameters.medium} | {link.parameters.campaign}
                     </div>
-                    <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+                    <div style={{ fontSize: '12px', color: 'var(--gray-600)', marginTop: '5px' }}>
                       {formatDate(link.timestamp)}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p style={{ color: '#666' }}>Your recently generated UTM links will appear here</p>
+              <p style={{ color: 'var(--gray-600)' }}>Your recently generated UTM links will appear here</p>
             )}
           </div>
         </div>
         
         <div style={{ marginTop: '30px' }}>
-          <h3>More information and examples for each parameter</h3>
+          <h3 style={{ color: 'var(--primary)' }}>More information and examples for each parameter</h3>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ backgroundColor: '#f2f2f2' }}>
-                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Parameter</th>
-                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Required</th>
-                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Example</th>
-                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Description</th>
+              <tr style={{ backgroundColor: 'var(--gray-100)' }}>
+                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Parameter</th>
+                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Required</th>
+                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Example</th>
+                <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Description</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Campaign Source</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Yes</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>google</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Use utm_source to identify a search engine, newsletter name, or other source.</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Campaign Source</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Yes</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>google</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Use utm_source to identify a search engine, newsletter name, or other source.</td>
               </tr>
               <tr>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Campaign Medium</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Yes</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>cpc</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Use utm_medium to identify a medium such as email or cost-per-click.</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Campaign Medium</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Yes</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>cpc</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Use utm_medium to identify a medium such as email or cost-per-click.</td>
               </tr>
               <tr>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Campaign Name</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Yes</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>spring_sale</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Used for keyword analysis. Use utm_campaign to identify a specific product promotion or strategic campaign.</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Campaign Name</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Yes</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>spring_sale</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Used for keyword analysis. Use utm_campaign to identify a specific product promotion or strategic campaign.</td>
               </tr>
               <tr>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Campaign Term</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>No</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>running+shoes</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Used for paid search. Use utm_term to note the keywords for this ad.</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Campaign Term</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>No</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>running+shoes</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Used for paid search. Use utm_term to note the keywords for this ad.</td>
               </tr>
               <tr>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Campaign Content</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>No</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>logolink</td>
-                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid #ddd' }}>Used for A/B testing. Use utm_content to differentiate ads or links that point to the same URL.</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Campaign Content</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>No</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>logolink</td>
+                <td style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--gray-300)' }}>Used for A/B testing. Use utm_content to differentiate ads or links that point to the same URL.</td>
               </tr>
             </tbody>
           </table>
