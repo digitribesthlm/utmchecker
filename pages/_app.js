@@ -1,112 +1,57 @@
 import "@/styles/globals.css";
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function App({ Component, pageProps }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check authentication and initialize chat
   useEffect(() => {
-    // Only run on client side
-    if (typeof window !== 'undefined') {
-      console.log('App mounted, checking authentication...');
-      // Check if user is authenticated
-      const isAuthenticated = localStorage.getItem('utm_auth') === 'true';
-      console.log('Authentication state:', isAuthenticated);
-      
-      // Only initialize chat if user is authenticated
-      if (isAuthenticated) {
-        console.log('User is authenticated, initializing chat...');
-        // Load n8n chat script and initialize chat widget
-        const initializeChat = () => {
-          // Read both environment variables
-          const chatUrl = process.env.NEXT_PUBLIC_CHAT_URL;
-          const utmWebhook = process.env.NEXT_PUBLIC_UTM_WEBHOOK;
-          
-          console.log('Environment variables:', {
-            NEXT_PUBLIC_CHAT_URL: chatUrl,
-            NEXT_PUBLIC_UTM_WEBHOOK: utmWebhook
-          });
-          
-          // Use either one that's available (preferring CHAT_URL if both exist)
-          const webhookUrl = chatUrl || utmWebhook;
-          
-          if (!webhookUrl) {
-            console.warn('Chat widget not initialized: No webhook URL available in environment variables');
-            return;
-          }
-          
-          console.log('Initializing chat with webhook URL:', webhookUrl);
-          
-          // Create target div for chat if it doesn't exist
-          if (!document.getElementById('n8n-chat')) {
-            console.log('Creating chat div element...');
-            const chatDiv = document.createElement('div');
-            chatDiv.id = 'n8n-chat';
-            document.body.appendChild(chatDiv);
-          }
-          
-          // Add the style
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css';
-          document.head.appendChild(link);
-          
-          // Create the script element for the chat widget with direct static URL
-          const script = document.createElement('script');
-          script.type = 'module';
-          
-          // Set up the chat initialization with the webhook URL directly in the code
-          script.textContent = `
-            import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-            
-            createChat({
-              webhookUrl: '${webhookUrl}',
-              target: '#n8n-chat',
-              mode: 'window',
-              showWelcomeScreen: true,
-              initialMessages: [
-                'Hi there! 👋',
-                'How can I assist you today?'
-              ],
-              i18n: {
-                en: {
-                  title: 'UTM Link Builder',
-                  subtitle: "Need help with UTM tracking? I'm here to assist you.",
-                  footer: '',
-                  getStarted: 'New Conversation',
-                  inputPlaceholder: 'Type your question..',
-                }
-              }
-            });
-          `;
-          
-          // Append the script to the document
-          document.body.appendChild(script);
-          
-          return {
-            script,
-            link,
-            chatDiv: document.getElementById('n8n-chat'),
-          };
-        };
-        
-        // Initialize the chat and get the elements for cleanup
-        const elements = initializeChat();
-        
-        // Return cleanup function
-        return () => {
-          if (elements) {
-            if (elements.script && document.body.contains(elements.script)) {
-              document.body.removeChild(elements.script);
-            }
-            if (elements.link && document.head.contains(elements.link)) {
-              document.head.removeChild(elements.link);
-            }
-            if (elements.chatDiv && document.body.contains(elements.chatDiv)) {
-              document.body.removeChild(elements.chatDiv);
-            }
-          }
-        };
-      }
+    const auth = localStorage.getItem('utm_auth') === 'true';
+    setIsAuthenticated(auth);
+
+    if (auth) {
+      // Add required stylesheet
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css';
+      document.head.appendChild(link);
+
+      // Create chat div
+      const chatDiv = document.createElement('div');
+      chatDiv.id = 'n8n-chat';
+      document.body.appendChild(chatDiv);
+
+      // Add chat script
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.textContent = `
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+        createChat({
+          webhookUrl: '${process.env.NEXT_PUBLIC_UTM_WEBHOOK}',
+          target: '#n8n-chat',
+          mode: 'window'
+        });
+      `;
+      document.body.appendChild(script);
+
+      return () => {
+        link.remove();
+        chatDiv.remove();
+        script.remove();
+      };
     }
+  }, [isAuthenticated]); // Re-run when authentication state changes
+
+  // Listen for auth changes
+  useEffect(() => {
+    const checkAuth = () => {
+      const auth = localStorage.getItem('utm_auth') === 'true';
+      setIsAuthenticated(auth);
+    };
+
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
   }, []);
 
   return (

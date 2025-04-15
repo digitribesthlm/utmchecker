@@ -23,6 +23,7 @@ export default function Home() {
     setError('');
 
     try {
+      console.log('Attempting login...');
       // Call our API endpoint
       const response = await fetch('/api/auth', {
         method: 'POST',
@@ -33,12 +34,16 @@ export default function Home() {
       });
 
       const data = await response.json();
+      console.log('Login response:', data);
 
       if (response.ok && data.success) {
+        console.log('Login successful, setting auth state...');
         // Set authentication in localStorage
         localStorage.setItem('utm_auth', 'true');
+        console.log('Auth state set:', localStorage.getItem('utm_auth'));
         router.push('/utm-form');
       } else {
+        console.log('Login failed:', data.message);
         setError(data.message || 'Invalid credentials. Please try again.');
       }
     } catch (error) {
