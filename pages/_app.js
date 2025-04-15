@@ -6,16 +6,24 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     // Only run on client side
     if (typeof window !== 'undefined') {
+      console.log('App mounted, checking authentication...');
       // Check if user is authenticated
       const isAuthenticated = localStorage.getItem('utm_auth') === 'true';
+      console.log('Authentication state:', isAuthenticated);
       
       // Only initialize chat if user is authenticated
       if (isAuthenticated) {
+        console.log('User is authenticated, initializing chat...');
         // Load n8n chat script and initialize chat widget
         const initializeChat = () => {
           // Read both environment variables
           const chatUrl = process.env.NEXT_PUBLIC_CHAT_URL;
           const utmWebhook = process.env.NEXT_PUBLIC_UTM_WEBHOOK;
+          
+          console.log('Environment variables:', {
+            NEXT_PUBLIC_CHAT_URL: chatUrl,
+            NEXT_PUBLIC_UTM_WEBHOOK: utmWebhook
+          });
           
           // Use either one that's available (preferring CHAT_URL if both exist)
           const webhookUrl = chatUrl || utmWebhook;
@@ -25,10 +33,11 @@ export default function App({ Component, pageProps }) {
             return;
           }
           
-          console.log('Using webhook URL:', webhookUrl);
+          console.log('Initializing chat with webhook URL:', webhookUrl);
           
           // Create target div for chat if it doesn't exist
           if (!document.getElementById('n8n-chat')) {
+            console.log('Creating chat div element...');
             const chatDiv = document.createElement('div');
             chatDiv.id = 'n8n-chat';
             document.body.appendChild(chatDiv);
