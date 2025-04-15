@@ -1,16 +1,19 @@
 import "@/styles/globals.css";
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
 
   // Check authentication and initialize chat
   useEffect(() => {
     const auth = localStorage.getItem('utm_auth') === 'true';
     setIsAuthenticated(auth);
 
-    if (auth) {
+    // Only show chat on authenticated pages (not on login page)
+    if (auth && router.pathname !== '/') {
       // Add required stylesheet
       const link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -41,7 +44,7 @@ export default function App({ Component, pageProps }) {
         script.remove();
       };
     }
-  }, [isAuthenticated]); // Re-run when authentication state changes
+  }, [isAuthenticated, router.pathname]); // Re-run when authentication state or page changes
 
   // Listen for auth changes
   useEffect(() => {
@@ -50,9 +53,18 @@ export default function App({ Component, pageProps }) {
       setIsAuthenticated(auth);
     };
 
+    // Check auth on mount and when localStorage changes
+    checkAuth();
     window.addEventListener('storage', checkAuth);
-    return () => window.removeEventListener('storage', checkAuth);
-  }, []);
+    
+    // Also check when user navigates between pages
+    router.events.on('routeChangeComplete', checkAuth);
+
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      router.events.off('routeChangeComplete', checkAuth);
+    };
+  }, [router]);
 
   return (
     <>
