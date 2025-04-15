@@ -7,13 +7,25 @@ export default function App({ Component, pageProps }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
-  // Check authentication and initialize chat
+  // Initialize authentication state
   useEffect(() => {
     const auth = localStorage.getItem('utm_auth') === 'true';
     setIsAuthenticated(auth);
+  }, []);
 
+  // Handle chat initialization
+  useEffect(() => {
     // Only show chat on authenticated pages (not on login page)
-    if (auth && router.pathname !== '/') {
+    if (isAuthenticated && router.pathname !== '/') {
+      // Remove any existing chat elements first
+      const existingChat = document.getElementById('n8n-chat');
+      const existingScript = document.querySelector('script[type="module"]');
+      const existingStyle = document.querySelector('link[href*="n8n/chat/dist/style.css"]');
+      
+      if (existingChat) existingChat.remove();
+      if (existingScript) existingScript.remove();
+      if (existingStyle) existingStyle.remove();
+
       // Add required stylesheet
       const link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -33,7 +45,21 @@ export default function App({ Component, pageProps }) {
         createChat({
           webhookUrl: '${process.env.NEXT_PUBLIC_UTM_WEBHOOK}',
           target: '#n8n-chat',
-          mode: 'window'
+          mode: 'window',
+          showWelcomeScreen: true,
+          initialMessages: [
+            'Hi there! 👋',
+            'How can I help you with UTM tracking?'
+          ],
+          i18n: {
+            en: {
+              title: 'UTM Link Builder',
+              subtitle: "Need help with UTM tracking? I'm here to assist you.",
+              footer: '',
+              getStarted: 'New Conversation',
+              inputPlaceholder: 'Type your message...'
+            }
+          }
         });
       `;
       document.body.appendChild(script);
@@ -44,27 +70,24 @@ export default function App({ Component, pageProps }) {
         script.remove();
       };
     }
-  }, [isAuthenticated, router.pathname]); // Re-run when authentication state or page changes
+  }, [isAuthenticated, router.pathname, router.isReady]); // Add router.isReady to ensure route is available
 
   // Listen for auth changes
   useEffect(() => {
-    const checkAuth = () => {
+    function handleAuthChange() {
       const auth = localStorage.getItem('utm_auth') === 'true';
       setIsAuthenticated(auth);
-    };
+    }
 
-    // Check auth on mount and when localStorage changes
-    checkAuth();
-    window.addEventListener('storage', checkAuth);
-    
-    // Also check when user navigates between pages
-    router.events.on('routeChangeComplete', checkAuth);
+    // Set up event listeners
+    window.addEventListener('storage', handleAuthChange);
+    router.events.on('routeChangeComplete', handleAuthChange);
 
     return () => {
-      window.removeEventListener('storage', checkAuth);
-      router.events.off('routeChangeComplete', checkAuth);
+      window.removeEventListener('storage', handleAuthChange);
+      router.events.off('routeChangeComplete', handleAuthChange);
     };
-  }, [router]);
+  }, [router.events]);
 
   return (
     <>
